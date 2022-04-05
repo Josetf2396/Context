@@ -1,10 +1,26 @@
-import React, {createContext, useContext, useReducer} from 'react';
-export const StateContext = createContext();
+import React, {useState} from 'react'
+import ContextComponent from './components/ContextComponent'
+import {Button} from 'react-native';
 
-export const StateProvider = ({reducer, initialState, children}) =>(
-  <StateContext.Provider value={useReducer(reducer, initialState)}>
-    {children}
-  </StateContext.Provider>
-);
+export const ThemeContext = React.createContext()
 
-export const useStateValue = () => useContext(StateContext);
+export default function App() {
+
+  const[darkTheme, setDarkTheme] = useState(true)
+
+  function toggleTheme() {
+    setDarkTheme(prevDarkTheme => !prevDarkTheme)
+  }
+
+  return(
+    <>
+      <ThemeContext.Provider value={darkTheme}>
+        <Button 
+          title="Change Theme"
+          onPress={toggleTheme}
+        />
+        <ContextComponent/>
+      </ThemeContext.Provider>
+    </>
+  )
+}
